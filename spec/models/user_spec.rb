@@ -14,6 +14,8 @@ describe User do
   it { should respond_to(:password) }
   it { should respond_to(:password_confirmation) }
   it { should respond_to(:authenticate) }
+  it { should respond_to(:admin) }
+  it { should respond_to(:remember_token) }
 
   it { should be_valid }
 
@@ -88,6 +90,19 @@ describe User do
     it { should be_invalid }
   end
 
+  describe "remember_token" do
+    before { @user.save }
+    its(:remember_token) { should_not be_blank }
+  end
+  
+  describe "with admin value set to true" do
+    before(:each) do
+      @user.save!
+      @user.toggle!(:admin) 
+    end
+
+    it { should be_admin }    
+  end
 
 
 end
